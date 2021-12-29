@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playground-soxfive-panel
+  labels:
+    app: playground-soxfive-panel
+    tier: front
+spec:
+  selector:
+    matchLabels:
+      app: playground-soxfive-panel
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: playground-soxfive-panel
+    spec:
+      containers:
+        - name: playground-soxfive-panel
+          image: max3014/playground-soxfive-panel:latest
+#          readinessProbe:
+#            httpGet:
+#              path: /swagger/index.html
+#              port: 80
+#              scheme: HTTP
+#            initialDelaySeconds: 60
+#            periodSeconds: 10
+#            successThreshold: 1
+#            timeoutSeconds: 5
+#            failureThreshold: 5
+#          livenessProbe:
+#            httpGet:
+#              path: /swagger/index.html
+#              port: 80
+#              scheme: HTTP
+#            initialDelaySeconds: 60
+#            periodSeconds: 10
+#            successThreshold: 1
+#            timeoutSeconds: 5
+#            failureThreshold: 5
+          ports:
+            - containerPort: 80
+#          volumeMounts:
+#            - mountPath: /app/log
+#              name: log-volume
+#          env:
+#            - name: ASPNETCORE_ENVIRONMENT
+#              value: "Production"
+#            - name: TZ
+#              value: "Asia/Baku"
+          resources:
+            requests:
+              cpu: 50m
+              memory: "128M"
+            limits:
+              cpu: 500m
+              memory: "512M"
+#      volumes:
+#        - name: log-volume
+#          hostPath:
+#            path: /home/logger/ibank-web-back-rest
+#            type: DirectoryOrCreate
